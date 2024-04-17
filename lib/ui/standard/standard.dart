@@ -29,7 +29,7 @@ class _StandardState extends State<Standard> {
     debugPrint("Builder");
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: const CAppBar(),
+        appBar: CAppBar(),
         backgroundColor: CColors.BGColor,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
@@ -71,12 +71,16 @@ class _StandardState extends State<Standard> {
                       const SizedBox(
                         height: 25,
                       ),
-                      Text(
-                        commonBtnProvider.input.text,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
+                      Consumer<CommonBtnProvider>(
+                        builder: (context, value, child) {
+                          return Text(
+                            value.output.text,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 25,
@@ -113,7 +117,7 @@ class _StandardState extends State<Standard> {
                 CommonFnBtn(
                   number: 'CE',
                   onPressed: () {
-                    commonBtnProvider.clean();
+                    commonBtnProvider.cleanAll();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -162,7 +166,7 @@ class _StandardState extends State<Standard> {
                   number: '/',
                   onPressed: () {
                     commonBtnProvider.appendText('/');
-                    commonBtnProvider.divide();
+                    commonBtnProvider.calculate();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -196,7 +200,8 @@ class _StandardState extends State<Standard> {
                 CommonFnBtn(
                   number: '*',
                   onPressed: () {
-
+                    commonBtnProvider.appendText('*');
+                    commonBtnProvider.calculate();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -230,7 +235,8 @@ class _StandardState extends State<Standard> {
                 CommonFnBtn(
                   number: '-',
                   onPressed: () {
-                    // Add logic for subtraction button
+                    commonBtnProvider.appendText('-');
+                    commonBtnProvider.calculate();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -264,7 +270,8 @@ class _StandardState extends State<Standard> {
                 CommonFnBtn(
                   number: '+',
                   onPressed: () {
-                    // Add logic for addition button
+                    commonBtnProvider.appendText('+');
+                    commonBtnProvider.calculate();
                   },
                 ),
                 const SizedBox(width: 5),
@@ -298,7 +305,7 @@ class _StandardState extends State<Standard> {
                 CommonFnBtn(
                   number: '=',
                   onPressed: () {
-                    // Add logic for equal button
+                    commonBtnProvider.calculate();
                   },
                 ),
                 const SizedBox(width: 5),

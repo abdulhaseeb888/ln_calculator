@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:ln_calculator/constraints/c_colors.dart';
+
 
 class CAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CAppBar({Key? key}) : super(key: key);
@@ -12,6 +14,7 @@ class CAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CAppBarState extends State<CAppBar> {
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -22,10 +25,11 @@ class _CAppBarState extends State<CAppBar> {
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
-        )
+        ),
       ),
+
       title: Text(
-        "Calculator",
+        'Calculator',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: CColors.textColor,
