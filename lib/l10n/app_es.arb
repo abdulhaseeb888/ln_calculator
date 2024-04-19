@@ -1,0 +1,15 @@
+{
+"calculator" : "Calculadora",
+  "zero" : "cero",
+  "doubleZero" : "cero cero",
+  "period" : ".",
+  "one" : "uno",
+  "two" : "dos",
+  "three" : "tres",
+  "four" : "cuatro",
+  "five" : "cinco",
+  "six" : "seis",
+  "seven" : "siete",
+  "eight" : "ocho",
+  "nine" : "nueve"
+}

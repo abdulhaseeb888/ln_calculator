@@ -5,7 +5,7 @@ import 'package:ln_calculator/modals/common/commonBtn.dart';
 import 'package:ln_calculator/modals/common/providers/commonBtnProvider.dart';
 import 'package:ln_calculator/ui/standard/common/commonFnBtn.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class Standard extends StatefulWidget {
   const Standard({Key? key}) : super(key: key);
 
@@ -27,6 +27,7 @@ class _StandardState extends State<Standard> {
     var commonBtnProvider =
     Provider.of<CommonBtnProvider>(context, listen: false);
     debugPrint("Builder");
+    String localizedOutput = commonBtnProvider.langOutPut(context, '');
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: CAppBar(),
@@ -177,21 +178,21 @@ class _StandardState extends State<Standard> {
               children: [
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '7',
+                  num: AppLocalizations.of(context)!.seven,
                   onPressed: () {
                     commonBtnProvider.appendText('7');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '8',
+                  num: AppLocalizations.of(context)!.eight,
                   onPressed: () {
                     commonBtnProvider.appendText('8');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '9',
+                  num: AppLocalizations.of(context)!.nine,
                   onPressed: () {
                     commonBtnProvider.appendText('9');
                   },
@@ -212,21 +213,21 @@ class _StandardState extends State<Standard> {
               children: [
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '4',
+                  num: AppLocalizations.of(context)!.four,
                   onPressed: () {
                     commonBtnProvider.appendText('4');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '5',
+                  num: AppLocalizations.of(context)!.five,
                   onPressed: () {
                     commonBtnProvider.appendText('5');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '6',
+                  num: AppLocalizations.of(context)!.six,
                   onPressed: () {
                     commonBtnProvider.appendText('6');
                   },
@@ -247,21 +248,21 @@ class _StandardState extends State<Standard> {
               children: [
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '1',
+                  num: AppLocalizations.of(context)!.one,
                   onPressed: () {
                     commonBtnProvider.appendText('1');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '2',
+                  num: AppLocalizations.of(context)!.two,
                   onPressed: () {
                     commonBtnProvider.appendText('2');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '3',
+                  num: AppLocalizations.of(context)!.three,
                   onPressed: () {
                     commonBtnProvider.appendText('3');
                   },
@@ -282,21 +283,21 @@ class _StandardState extends State<Standard> {
               children: [
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '00',
+                  num: AppLocalizations.of(context)!.doubleZero,
                   onPressed: () {
                     commonBtnProvider.appendText('00');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '0',
+                  num: AppLocalizations.of(context)!.zero,
                   onPressed: () {
                     commonBtnProvider.appendText('0');
                   },
                 ),
                 const SizedBox(width: 5),
                 CommonBtn(
-                  num: '.',
+                  num: AppLocalizations.of(context)!.period,
                   onPressed: () {
                     commonBtnProvider.appendText('.');
                   },
