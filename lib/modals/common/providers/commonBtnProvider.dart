@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,30 +8,43 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CommonBtnProvider with ChangeNotifier {
-  TextEditingController inPutController = TextEditingController();
-  TextEditingController outPutController = TextEditingController();
+  TextEditingController inPutController = TextEditingController(text: '0');
+  TextEditingController outPutController = TextEditingController(text: '0');
+  BuildContext? _context;
 
   TextEditingController get input => inPutController;
   TextEditingController get output => outPutController;
+
+  void setContext(BuildContext context){
+    _context = context;
+  }
+
+  BuildContext? get context => _context;
+
 
 
 
 
   void appendText(String text) {
-    inPutController.text += text;
+    String currentValue = inPutController.text;
+    if(currentValue == '0' && text != '.'){
+      inPutController.text = text;
+    } else {
+      inPutController.text += text;
+    }
     notifyListeners();
   }
 
   // C Button
   void clean() {
-    input.clear();
+    inPutController.text = '0';
     notifyListeners();
   }
 
   // CE Button
   void cleanAll(){
-    input.clear();
-    output.clear();
+    inPutController.text = '0';
+    outPutController.clear();
     notifyListeners();
   }
 
@@ -38,11 +53,10 @@ class CommonBtnProvider with ChangeNotifier {
     final currentValue = inPutController.text;
     if (currentValue.isNotEmpty) {
       final newValue = currentValue.substring(0, currentValue.length - 1);
-      inPutController.text = newValue;
+      inPutController.text = newValue.isEmpty ? '0' : newValue; // Set to '0' if empty
       notifyListeners();
     }
   }
-
   // Standard Calculator math logic
   void calculate() {
     final expression = inPutController.text.trim();
@@ -54,7 +68,10 @@ class CommonBtnProvider with ChangeNotifier {
 
     try {
       double result = evaluateExpression(expression);
-      outPutController.text = result.toString();
+      String resultString = result.toString();
+      List<String> resultList = resultString.split('');
+      outPutController.text = langOutPut(context!, resultList);
+      inPutController.text = outPutController.text;
       notifyListeners();
     } catch (e) {
       outPutController.text = '';
@@ -68,16 +85,24 @@ class CommonBtnProvider with ChangeNotifier {
     final numbers = <double>[];
     final operators = <String>[];
     String currentNumber = '';
+    bool hasDecimal = false; // Flag to track if the current number has a decimal point
 
     // Iterate through the expression and extract numbers and operators
     for (int i = 0; i < expression.length; i++) {
       final char = expression[i];
-      if (_isDigit(char)) {
+      if (_isDigit(char) || char == '.') {
         currentNumber += char;
+        if (char == '.') {
+          if (hasDecimal) {
+            throw Exception('Invalid expression: multiple decimal points in a number');
+          }
+          hasDecimal = true;
+        }
         // If it's the last character or the next character is an operator
         if (i == expression.length - 1 || _isOperator(expression[i + 1])) {
           numbers.add(double.parse(currentNumber));
           currentNumber = '';
+          hasDecimal = false; // Reset the flag after adding the number
         }
       } else if (_isOperator(char)) {
         operators.add(char);
@@ -115,6 +140,7 @@ class CommonBtnProvider with ChangeNotifier {
     return result;
   }
 
+
   bool _isDigit(String char) {
     return RegExp(r'[0-9]').hasMatch(char);
   }
@@ -123,60 +149,80 @@ class CommonBtnProvider with ChangeNotifier {
     return ['+', '-', '*', '/'].contains(char);
   }
 
-  String langOutPut(BuildContext context, String inputValue) {
-    var appLocalization = AppLocalizations.of(context);
-    var localizedValue = StringBuffer();
+  String langOutPut(BuildContext context, List<String> inputList) {
+    final localizations = AppLocalizations.of(context)!;
+    String output = '';
 
-    if (appLocalization == null) {
-      return inputValue;
-    }
-
-    for (int i = 0; i < inputValue.length; i++) {
-      var value = inputValue[i];
-      switch (value) {
+    for (String char in inputList) {
+      switch (char) {
         case '.':
-          AppLocalizations.of(context)!.period;
+          output += localizations.period ?? '';
           break;
         case '0':
-          AppLocalizations.of(context)!.zero;
+          output += localizations.zero ?? '';
           break;
         case '00':
-          AppLocalizations.of(context)!.doubleZero;
+          output += localizations.doubleZero ?? '';
           break;
         case '1':
-          AppLocalizations.of(context)!.one;
+          output += localizations.one ?? '';
           break;
         case '2':
-          AppLocalizations.of(context)!.two;
+          output += localizations.two ?? '';
           break;
         case '3':
-          AppLocalizations.of(context)!.three;
+          output += localizations.three ?? '';
           break;
         case '4':
-          AppLocalizations.of(context)!.four;
+          output += localizations.four ?? '';
           break;
         case '5':
-          AppLocalizations.of(context)!.five;
+          output += localizations.five ?? '';
           break;
         case '6':
-          AppLocalizations.of(context)!.six;
+          output += localizations.six ?? '';
           break;
         case '7':
-          AppLocalizations.of(context)!.seven;
+          output += localizations.seven ?? '';
           break;
         case '8':
-          AppLocalizations.of(context)!.eight;
+          output += localizations.eight ?? '';
           break;
         case '9':
-          AppLocalizations.of(context)!.nine;
+          output += localizations.nine ?? '';
           break;
         default:
-          localizedValue.write(value);
+          output += char;
+          break;
       }
-      localizedValue;
     }
-    return localizedValue.toString();
+
+    return output;
   }
 
+  void calculateSquardRoot(){
+    final currentValue = inPutController.text;
+    final result = sqrt(double.parse(currentValue));
+    outPutController.text = result.toString();
+    inPutController.text = outPutController.text;
+    notifyListeners();
+    debugPrint(result.toString());
+  }
+
+  void calculateSquar(){
+    final currentValue = inPutController.text;
+    final num result = pow(double.parse(currentValue), 2);
+    outPutController.text = result.toString();
+    inPutController.text = outPutController.text;
+    notifyListeners();
+  }
+
+  void oneOverX(){
+    final currentValue = inPutController.text;
+    final result = 1 / double.parse(currentValue);
+    outPutController.text = result.toString();
+    inPutController.text = outPutController.text;
+    notifyListeners();
+  }
 }
 

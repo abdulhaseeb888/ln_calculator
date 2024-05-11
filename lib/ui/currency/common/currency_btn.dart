@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ln_calculator/constraints/c_colors.dart';
 
-
-class CommonBtn extends StatefulWidget {
-  CommonBtn({
+class CurrencyBtn extends StatefulWidget {
+  CurrencyBtn({
     Key? key,
     this.num,
     this.color,
@@ -20,10 +19,10 @@ class CommonBtn extends StatefulWidget {
   final VoidCallback? onPressed;
 
   @override
-  State<CommonBtn> createState() => _VolumeBtn();
+  State<CurrencyBtn> createState() => _CurrencyBtnState();
 }
 
-class _VolumeBtn extends State<CommonBtn> {
+class _CurrencyBtnState extends State<CurrencyBtn> {
   Color get _defaultColor => CColors.lightColor;
 
   @override
